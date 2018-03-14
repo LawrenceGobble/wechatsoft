@@ -1,0 +1,9 @@
+<!--pages/sign/sign.wxml-->
+<view>
+  <view>
+    <button  bindtap='showAction'>显示操作菜单</button>
+  </view>
+  <view>
+    <image class= "show-image" mode="aspectFitf" src="{{src}}"></image>
+  </view>
+</view>

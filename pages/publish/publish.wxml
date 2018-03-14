@@ -1,0 +1,47 @@
+<!--pages/publish/publish.wxml-->
+<view>
+  <view class="title">
+    <text>发布会议</text>
+  </view>
+  <view>
+    <form bindsubmit="formSubmit">
+      <view>
+        <text>会议名称：</text>
+        <input name="title"></input>
+      </view>
+      <view>
+        <text>地点：</text>
+        <input name="addr"></input>
+      </view>
+
+      <view class="tui-picker-content">
+        <picker name="starttime" mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
+          <view class="tui-picker-detail">
+            选择签到开始时间: {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}:{{dateTimeArray[5][dateTime[5]]}}
+          </view>
+        </picker>
+      </view>
+      <view class="tui-picker-content">
+        <picker name="endtime" mode="multiSelector" value="{{dateTime2}}" bindchange="changeDateTime2" bindcolumnchange="changeDateTimeColumn2" range="{{dateTimeArray2}}">
+          <view class="tui-picker-detail">
+            选择签到截止时间: {{dateTimeArray2[0][dateTime2[0]]}}-{{dateTimeArray2[1][dateTime2[1]]}}-{{dateTimeArray2[2][dateTime2[2]]}} {{dateTimeArray2[3][dateTime2[3]]}}:{{dateTimeArray2[4][dateTime2[4]]}}:{{dateTimeArray2[5][dateTime2[5]]}}
+          </view>
+        </picker>
+      </view>
+      <view>
+        <button name="testlocation" bindtap='testlocation'>地点</button>
+      </view>
+      <view>
+        <text>签到字段</text>
+        <button bindtap='addmessage'>添加</button>
+        <view wx:for="{{messagebox}}" wx:key="*this">
+        <text>签到字段</text>
+        <input name='message'></input>
+        <button>删除</button>
+        </view>
+      </view>
+
+      <button formType="submit">发布会议</button>
+    </form>
+  </view>
+</view>

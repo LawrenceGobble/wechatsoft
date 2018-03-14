@@ -1,0 +1,8 @@
+<!--pages/home/home.wxml-->
+<import src="../sign/sign.wxml" />
+<import src="../tabBar/tabBar.wxml"/>
+<view>
+  <text>pages/home/home.wxml</text>
+</view>
+<template is="sign"/>
+<template is="tabBar" data="{{tabBar: tabBar}}"/>

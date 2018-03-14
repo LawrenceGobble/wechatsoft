@@ -1,0 +1,29 @@
+/* pages/publish/publish.wxss */
+.title{
+  margin-left:auto; 
+  margin-right:auto; 
+  width:70%;
+  text-align: center;   
+}
+
+page{background-color: #efeff4;}
+.tui-picker-content{
+  padding: 30rpx;
+  text-align: center;
+}
+.tui-picker-name{
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.tui-picker-detail{
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fff;
+  font-size: 35rpx;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+.box{
+  flex-direction: column;
+}
