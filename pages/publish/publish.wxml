@@ -36,8 +36,8 @@
         <button bindtap='addmessage'>添加</button>
         <view wx:for="{{messagebox}}" wx:key="*this">
         <text>签到字段</text>
-        <input name='message'></input>
-        <button>删除</button>
+        <input id='{{index}}' value='{{item}}' bindblur='changemessage'></input>
+        <button id='{{index}}' bindtap='delemessage'>删除</button>
         </view>
       </view>
 

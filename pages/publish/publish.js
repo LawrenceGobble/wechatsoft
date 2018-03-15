@@ -19,8 +19,46 @@ Page({
     startYear: 2000,
     endYear: 2050,
 
-    messagebox: ['名字'],
-    count: 1
+    messagebox: ['姓名'],
+    signmessagecount: 1
+  },
+
+  addmessage: function(){
+    var mb = this.data.messagebox;
+    var signmessagecount = this.data.signmessagecount + 1;
+    mb.push('');
+    this.setData({
+      messagebox: mb,
+      signmessagecount: signmessagecount
+    });
+  },
+  changemessage: function(e){
+    //console.log(e);
+    var index = e.currentTarget.id;
+    var message = e.detail.value;
+    var messagebox = this.data.messagebox;
+    messagebox[index] = message;
+    //console.log(messagebox);
+    this.setData({
+      messagebox: messagebox
+    });
+  },
+  delemessage: function(e){
+    //console.log(e);
+    var mb = this.data.messagebox;
+    var index = e.currentTarget.id;
+    var tb = [];
+    for(var i=mb.length-1;i>index;i--){
+      tb.push(mb.pop());
+    }
+    mb.pop();
+    for(var i=tb.length-1;i>=0;i--){
+      mb.push(tb.pop());
+    }
+    this.setData({
+      messagebox: mb,
+      signmessagecount: mb.length,
+    });
   },
 
   formSubmit: function(e) {
@@ -31,6 +69,8 @@ Page({
     var dateTime2 = that.data.dateTime2;
     var longitude = that.data.longitude;
     var laititude = that.data.laititude;
+    var signmessagecount = that.data.signmessagecount;
+    var signmessage = that.data.messagebox;
     var starttime=obj1.dateTimeArray[0][dateTime[0]] + "-" + obj1.dateTimeArray[1][dateTime[1]] + "-" + obj1.dateTimeArray[2][dateTime[2]] + " " + obj1.dateTimeArray[3][dateTime[3]] + ":" + obj1.dateTimeArray[4][dateTime[4]] + ":" + obj1.dateTimeArray[5][dateTime[5]];
     var endtime = obj2.dateTimeArray[0][dateTime2[0]] + "-" + obj2.dateTimeArray[1][dateTime2[1]] + "-" + obj2.dateTimeArray[2][dateTime2[2]] + " " + obj2.dateTimeArray[3][dateTime2[3]] + ":" + obj2.dateTimeArray[4][dateTime2[4]] + ":" + obj2.dateTimeArray[5][dateTime2[5]];
     console.log(starttime+" "+endtime);
@@ -46,10 +86,12 @@ Page({
         endtime: endtime,
         openid: openid,
         longitude: longitude,
-        laititude: laititude
+        laititude: laititude,
+        signmessagecount: signmessagecount,
+        signmessage: signmessage
       },
       success: function (res) {
-        console.log(res.data.success);
+        console.log(res);
        }
     })
   },

@@ -1,9 +1,17 @@
 <!--pages/sign/sign.wxml-->
-<view>
+<!--view>
   <view>
     <button  bindtap='showAction'>显示操作菜单</button>
   </view>
   <view>
     <image class= "show-image" mode="aspectFitf" src="{{src}}"></image>
   </view>
+</view-->
+<view>
+  <form>
+    <text>签到码：</text>
+    <input name='code'></input>
+    <button formType='submit'>提交</button>
+  </form>
+
 </view>
