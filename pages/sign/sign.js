@@ -9,7 +9,42 @@ Page({
    */
   data: {
     src: "",
+    hiddenmodalput: true,
+
   },
+  modalinput: function () {
+    this.setData({
+      hiddenmodalput: !this.data.hiddenmodalput
+    })
+  },
+  //取消按钮  
+  cancel: function () {
+    this.setData({
+      hiddenmodalput: true
+    });
+  },
+  //确认  
+  confirm: function () {
+    this.setData({
+      hiddenmodalput: true
+    })
+  },
+
+  SubmitSign: function(e){
+    var code = e.detail.value.code;
+    //console.log(e);
+    wx.request({
+      url: app.data.server_add + "/api/meeting/signcode",
+      method: 'get',
+      data: {
+        code: code
+      },
+      success: function (res) {
+        console.log(res);
+      }
+    })
+  },
+
   showAction: function (e) {
     var that = this;
     wx.showActionSheet({

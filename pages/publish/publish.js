@@ -73,7 +73,7 @@ Page({
     var signmessage = that.data.messagebox;
     var starttime=obj1.dateTimeArray[0][dateTime[0]] + "-" + obj1.dateTimeArray[1][dateTime[1]] + "-" + obj1.dateTimeArray[2][dateTime[2]] + " " + obj1.dateTimeArray[3][dateTime[3]] + ":" + obj1.dateTimeArray[4][dateTime[4]] + ":" + obj1.dateTimeArray[5][dateTime[5]];
     var endtime = obj2.dateTimeArray[0][dateTime2[0]] + "-" + obj2.dateTimeArray[1][dateTime2[1]] + "-" + obj2.dateTimeArray[2][dateTime2[2]] + " " + obj2.dateTimeArray[3][dateTime2[3]] + ":" + obj2.dateTimeArray[4][dateTime2[4]] + ":" + obj2.dateTimeArray[5][dateTime2[5]];
-    console.log(starttime+" "+endtime);
+    //console.log(starttime+" "+endtime);
     var detail = e.detail.value;
     var openid = wx.getStorageSync("openid");
     wx.request({
