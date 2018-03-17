@@ -11,10 +11,13 @@
   <form  bindsubmit="SubmitSign">
     <text>签到码：</text>
     <input name='code'></input>
-    <button formType='submit'>提交</button>
+    <button formType='submit'>签到</button>
   </form>
 
 </view>
-<modal hidden="{{hiddenmodalput}}" title="请输入验证码" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
-    <input type='text'placeholder="请输入内容" auto-focus/>  
+<modal hidden="{{hiddenmodalput}}" title="签到信息" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">  
+    <view wx:for="{{signmessagenames}}" wx:key="{{id}}" >
+      <text>{{item.name}}:</text>
+      <input id="{{item.number}}" bindblur='changemessage'></input>
+    </view> 
 </modal>  

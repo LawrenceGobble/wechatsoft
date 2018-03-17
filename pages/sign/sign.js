@@ -10,7 +10,23 @@ Page({
   data: {
     src: "",
     hiddenmodalput: true,
+    signmessagenames: [],
+    meetingid: 0,
+    signmessages: []
 
+  },
+  changemessage: function(e){
+    //console.log(e);
+    var sm = this.data.signmessages;
+    if(sm.length < e.target.id){
+      sm.push(e.detail.value);
+    }else{
+      sm[e.target.id-1] = e.detail.value;
+    }
+    this.setData({
+      signmessages: sm
+    });
+    //console.log(sm);
   },
   modalinput: function () {
     this.setData({
@@ -25,13 +41,45 @@ Page({
   },
   //确认  
   confirm: function () {
-    this.setData({
-      hiddenmodalput: true
+    var that = this;
+    var meetingid = that.data.meetingid;
+    var openid = wx.getStorageSync('openid');
+    var signmessages = that.data.signmessages;
+    var signmessagenames = that.data.signmessagenames;
+    var context = [];
+    var signmessagenameid = [];
+    var snumber = [];
+    for (var i = 0; i < signmessages.length; i++) {
+      context.push(signmessages[i]);
+      signmessagenameid.push(signmessagenames[i].id);
+      snumber.push(signmessagenames[i].number);
+    }
+    //console.log(context);
+    //console.log(signmessagenameid);
+    //console.log(snumber);
+    wx.request({
+      url: app.data.server_add + "/api/sign/sign",
+      method: 'post',
+      data: {
+        count: signmessages.length,
+        context: context,
+        signmessagenameid: signmessagenameid,
+        snumber: snumber,
+        openid: openid,
+        meetingid: meetingid
+      },
+      success: function(res){
+        console.log(res);
+        that.setData({
+          hiddenmodalput: true
+        })
+      }
     })
   },
 
   SubmitSign: function(e){
     var code = e.detail.value.code;
+    var that = this;
     //console.log(e);
     wx.request({
       url: app.data.server_add + "/api/meeting/signcode",
@@ -41,6 +89,12 @@ Page({
       },
       success: function (res) {
         console.log(res);
+        that.setData({
+          meetingid: res.data.meetingid,
+          signmessagenames: res.data.signmessagenames,
+          hiddenmodalput: false,
+        });
+
       }
     })
   },
