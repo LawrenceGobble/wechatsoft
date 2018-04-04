@@ -5,7 +5,9 @@
     "pages/mypage/mypage",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/meeting/meeting",
+    "pages/model/model"
   ],
   "tabBar": {
     "color": "#a9b7b7",

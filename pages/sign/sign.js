@@ -12,16 +12,22 @@ Page({
     hiddenmodalput: true,
     signmessagenames: [],
     meetingid: 0,
-    signmessages: []
+    signmessages: [],
+    latitude: 0,
+    longitude: '',
+
+    /** 页面配置 */
+    winWidth: 0,
+    winHeight: 0,
 
   },
-  changemessage: function(e){
+  changemessage: function (e) {
     //console.log(e);
     var sm = this.data.signmessages;
-    if(sm.length < e.target.id){
+    if (sm.length < e.target.id) {
       sm.push(e.detail.value);
-    }else{
-      sm[e.target.id-1] = e.detail.value;
+    } else {
+      sm[e.target.id - 1] = e.detail.value;
     }
     this.setData({
       signmessages: sm
@@ -49,12 +55,13 @@ Page({
     var context = [];
     var signmessagenameid = [];
     var snumber = [];
+
     for (var i = 0; i < signmessages.length; i++) {
       context.push(signmessages[i]);
       signmessagenameid.push(signmessagenames[i].id);
       snumber.push(signmessagenames[i].number);
     }
-    //console.log(context);
+    //console.log();
     //console.log(signmessagenameid);
     //console.log(snumber);
     wx.request({
@@ -66,88 +73,85 @@ Page({
         signmessagenameid: signmessagenameid,
         snumber: snumber,
         openid: openid,
-        meetingid: meetingid
+        meetingid: meetingid,
       },
-      success: function(res){
+      success: function (res) {
         console.log(res);
         that.setData({
           hiddenmodalput: true
-        })
+        });
+        wx.showModal({
+          title: res.data.mesg,
+          content: '在我的页面能查看/修改签到信息',
+        });
       }
     })
   },
 
-  SubmitSign: function(e){
+  SubmitSign: function (e) {
     var code = e.detail.value.code;
     var that = this;
     //console.log(e);
-    wx.request({
-      url: app.data.server_add + "/api/meeting/signcode",
-      method: 'get',
-      data: {
-        code: code
-      },
+
+    var latitude;
+    var longitude;
+    wx.getLocation({
+      type: 'gcj02',
       success: function (res) {
-        console.log(res);
-        that.setData({
-          meetingid: res.data.meetingid,
-          signmessagenames: res.data.signmessagenames,
-          hiddenmodalput: false,
-        });
-
-      }
-    })
-  },
-
-  showAction: function (e) {
-    var that = this;
-    wx.showActionSheet({
-      itemList: ['相机', '拍摄'],
-      success: function (res) {
-        var _this= that;
-        if (!res.cancel) {
-          if(res.tapIndex == 0){
-            wx.chooseImage({
-              count: 9, // 最多可以选择的图片张数，默认9
-              sizeType: ['original', 'compressed'], // original 原图，compressed 压缩图，默认二者都有
-              sourceType: ['album', 'camera'], // album 从相册选图，camera 使用相机，默认二者都有
-              success: function (res) {
-                _this.setData({
-                  src: res.tempFilePaths
-                });
-                var tempFilePaths = res.tempFilePaths;
-                //console.log(tempFilePaths);
-                wx.uploadFile({
-                  url: app.data.server_add+'/api/upload/upload_image', //仅为示例，非真实的接口地址
-                  filePath: tempFilePaths[0],
-                  name: 'file',
-                  formData: {
-                    'user': 'test'
-                  },
-                  success: function (res) {
-                    console.log(res);
-                    //do something
-                  }
-                })
-              },
-              fail: function () {
-                // fail
-              },
-              complete: function () {
-                // complete
-              }
-            })
-
+        //console.log(res);
+        latitude = res.latitude;
+        longitude = res.longitude;
+        //console.log(latitude);
+        var now = new Date().getTime();
+        console.log(new Date(),now);
+        wx.request({
+          url: app.data.server_add + "/api/meeting/signcode",
+          method: 'get',
+          data: {
+            code: code,
+            latitude: latitude,
+            longitude: longitude,
+            openid: wx.getStorageSync('openid'),
+            now: now,
+          },
+          success: function (res) {
+            console.log(res);
+            if (res.data.success == true) {
+              that.setData({
+                meetingid: res.data.meetingid,
+                signmessagenames: res.data.signmessagenames,
+                hiddenmodalput: false,
+              });
+            }
+            else{
+              wx.showModal({
+                title: '签到失败',
+                content: res.data.mesg,
+              })
+            }
           }
-        }
-      }
+        })
+
+      },
     })
+
   },
+
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    var that = this;
+    wx.getSystemInfo({
+      success: function (res) {
+        console.log(res);
+        that.setData({
+          winWidth: res.windowWidth,
+          winHeight: res.windowHeight
+        });
+      }
+    });
   },
 
   /**
@@ -161,41 +165,41 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

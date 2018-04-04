@@ -1,0 +1,28 @@
+<!--pages/model/model.wxml-->
+<view wx:for="{{models}}" wx:for-index="idx" wx:for-item="item" wx:key="id">
+  <view class="feed-item" id='{{item.id}}' bindtap=''>
+    <view class="feed-content">
+      <view class="question">
+        <view class='questiontext'>
+          <text>{{item.title}}</text>
+        </view>
+        <view class="questionbutton">
+          <button size='mini' style='font-size: 20rpx;' catchtap='usemodel' id='{{idx}}'>使用模板</button>
+        </view>
+      </view>
+      <view class="answer-body">
+        <view>
+          <text class="answer-txt">负责人：{{item.publisher}}\n</text>
+          <text class="answer-txt">地点：{{item.addr}}\n</text>
+          <block wx:if="{{item.islocal == '0'}}">
+            <text class="answer-txt">坐标：无\n</text>
+          </block>
+          <block wx:if="{{item.islocal == '1'}}">
+            <text class="answer-txt">坐标：{{item.longitude}}E/W {{item.laititude}}N/S\n</text>
+          </block>
+          <text class="answer-txt">签到字段：{{item.signmessagenames}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

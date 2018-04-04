@@ -1,2 +1,106 @@
 <!--pages/mypage/mypage.wxml-->
-<text>pages/mypage/mypage.wxml</text>
+<view class="swiper-tab">
+  <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">我的签到</view>
+  <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">我的发布</view>
+</view>
+<swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight - 45}}px" bindchange="bindChange">
+  <!-- 我的签到 -->
+  <swiper-item>
+    <view class="weui-search-bar" style='padding: 1px;padding-left:2px:padding-right:2px;height:34px;'>
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+            <icon type="clear" size="14"></icon>
+          </view>
+        </view>
+        <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索</view>
+        </label>
+      </view>
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput" style='margin-left: 10px;margin-right: 10px;'>取消</view>
+    </view>
+    <scroll-view scroll-y="true" style="height:{{winHeight - 79}}px" bindscrolltoupper='upper'>
+      <block wx:for="{{signs}}" wx:for-index="idx" wx:for-item="item" wx:key="id">
+        <view class="feed-item" id='{{item.id}}' bindtap='bindsign'>
+          <view class="feed-content">
+            <view class='questiontext'>
+              <text>{{item.title}}</text>
+            </view>
+            <view class="answer-body">
+              <view>
+                <text class="answer-txt">负责人：{{item.publisher}}\n</text>
+                <text class="answer-txt">地点：{{item.addr}}\n</text>
+                <text class="answer-txt">签到时间：{{item.created_at}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </swiper-item>
+  <!-- 我的发布 -->
+  <swiper-item>
+  <view class="weui-search-bar" style='padding: 1px;padding-left:2px:padding-right:2px;height:34px;'>
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal2}}" focus="{{inputShowed2}}" bindinput="inputTyping2" />
+          <view class="weui-icon-clear" wx:if="{{inputVal2.length > 0}}" bindtap="clearInput2">
+            <icon type="clear" size="14"></icon>
+          </view>
+        </view>
+        <label class="weui-search-bar__label" hidden="{{inputShowed2}}" bindtap="showInput2">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索</view>
+        </label>
+      </view>
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed2}}" bindtap="hideInput2" style='margin-left: 10px;margin-right: 10px;'>取消</view>
+    </view>
+    <scroll-view scroll-y="true" style="height: 100%" bindscrolltoupper='upper'>
+      <view wx:for="{{meetings}}" wx:for-index="idx" wx:for-item="item" wx:key="id">
+        <view class="feed-item" id='{{item.id}}' bindtap='bindmeeting'>
+          <view class="feed-content">
+            <view class="question">
+              <view class='questiontext'>
+                <text>{{item.title}}</text>
+              </view>
+              <block>
+                <view wx:if="{{item.ismodel == 1}}" class="questionbutton">
+                  <button size='mini' style='font-size: 20rpx;' catchtap='setmodel' id='{{idx}}'>取消模板</button>
+                </view>
+                <view wx:else class="questionbutton">
+                  <button size='mini' style='font-size: 20rpx;' catchtap='setmodel' id='{{idx}}'>设为模板</button>
+                </view>
+              </block>
+            </view>
+            <view class="answer-body">
+              <view>
+                <text class="answer-txt">负责人：{{item.publisher}}\n</text>
+                <text class="answer-txt">地点：{{item.addr}}\n</text>
+                <text class="answer-txt">签到人数：{{item.count}}\n</text>
+                <text class="answer-txt">签到时间：{{item.starttime}}--{{item.endtime}}\n</text>
+                <text class="answer-txt">签到码：{{item.code}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </swiper-item>
+</swiper>
+<modal hidden="{{hiddenmodalput}}" title="签到信息" confirm-text="修改" cancel-text="关闭" bindcancel="cancel" bindconfirm="confirm">
+  <block wx:for="{{signmessagenames}}" wx:key="{{id}}">
+    <view class='modalview'>
+      <view class='modaltext'>
+        <text>{{item.name}}:</text>
+      </view>
+      <view>
+        <input class='modalinput' id="{{item.number}}" bindblur='changemessage' value='{{signmessages[item.number-1].context}}'></input>
+      </view>
+      <view class='modalblock'></view>
+    </view>
+  </block>
+</modal>

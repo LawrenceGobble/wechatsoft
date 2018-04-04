@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.8",
 	"appid": "wx347d7405a5c57b3d",
-	"projectname": "wechatsoft",
+	"projectname": "gitwechat",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

@@ -5,8 +5,6 @@
   width:70%;
   text-align: center;   
 }
-
-page{background-color: #efeff4;}
 .tui-picker-content{
   padding: 30rpx;
   text-align: center;
@@ -23,7 +21,20 @@ page{background-color: #efeff4;}
   padding: 0 10px;
   overflow: hidden;
 }
-
 .box{
   flex-direction: column;
 }
+.button-sp-area{
+    margin: 0 auto;
+    width: 40px;
+}
+.model{
+  border-style: solid;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 1px;
+  text-align:center;
+}
+
+

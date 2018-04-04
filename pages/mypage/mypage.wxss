@@ -1,1 +1,81 @@
 /* pages/mypage/mypage.wxss */
+.swiper-tab{  
+    width: 100%;  
+    border-bottom: 2rpx solid #777777;  
+    text-align: center;  
+    line-height: 80rpx;}  
+.swiper-tab-list{  font-size: 30rpx;  
+    display: inline-block;  
+    width: 50%;  
+    color: #777777;  
+}  
+.on{ color: #da7c0c;  
+    border-bottom: 5rpx solid #da7c0c;}  
+  
+.swiper-box{ display: block; height: 100%; width: 100%; overflow: hidden; }  
+
+.feed-item{
+  width: 690rpx;
+  padding: 30rpx 30rpx 20rpx;
+  margin: 7rpx 0 6rpx 0;
+  background: #ffffff;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 5px #eeeeee;
+}
+
+.feed-content{
+  padding: 10rpx 0 0 0;
+}
+.question{
+  position: relative;
+  display:-webkit-box;
+}
+.questiontext{
+  width: 80%;
+  font-size: 28rpx;
+  font-weight: 600px;
+  line-height: 40rpx;
+  text-space: 5rpx;
+}
+.questionbutton{
+  width: 20%;
+  -webkit-box-flex: 3;
+  font-size: 24rpx;
+}
+
+.answer-body{
+  padding: 10rpx 0 0 0;
+  /*height: 10rpx;*/
+  font-size: 24rpx;
+  line-height: 28rpx;
+  color: #5b5b5b;
+}
+
+.modalview{
+  padding: 10px 15px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  position: relative;
+  display:-webkit-box;
+  margin-bottom: 15px;
+}
+.modaltext{
+  /*background: lightblue;*/
+  /*-webkit-box-flex: 1;*/
+}
+.modalinput{
+  margin-left: 5px;
+  padding-left: 10px;
+  border-style: solid;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 1px;
+  /*background: lightgray;*/
+  /*-webkit-box-flex: 2;*/
+}
+.modalblock{
+  /*background: lightblue;*/
+  /*-webkit-box-flex: 3;*/
+}

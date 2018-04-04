@@ -1,23 +1,23 @@
 <!--pages/sign/sign.wxml-->
-<!--view>
-  <view>
-    <button  bindtap='showAction'>显示操作菜单</button>
-  </view>
-  <view>
-    <image class= "show-image" mode="aspectFitf" src="{{src}}"></image>
-  </view>
-</view-->
-<view>
-  <form  bindsubmit="SubmitSign">
-    <text>签到码：</text>
-    <input name='code'></input>
-    <button formType='submit'>签到</button>
+<view class="container1" style='height: {{winHeight}}px;'>
+  <form class='form' bindsubmit="SubmitSign">
+    <view class="view1">
+      <input class='input' name='code' placeholder="请输入签到码"></input>
+    </view>
+    <view class='view2'>
+      <button class="weui-btn" type="default" plain="true" formType='submit'>签到</button>
+    </view>
   </form>
-
 </view>
-<modal hidden="{{hiddenmodalput}}" title="签到信息" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">  
-    <view wx:for="{{signmessagenames}}" wx:key="{{id}}" >
-      <text>{{item.name}}:</text>
-      <input id="{{item.number}}" bindblur='changemessage'></input>
-    </view> 
-</modal>  
+<modal hidden="{{hiddenmodalput}}" title="签到信息" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+  <block wx:for="{{signmessagenames}}" wx:key="{{id}}">
+    <view class='modalview'>
+      <view>
+        <text>{{item.name}}：</text>
+      </view>
+      <view>
+        <input class='modalinput' id="{{item.number}}" bindblur='changemessage'></input>
+      </view>
+    </view>
+  </block>
+</modal>

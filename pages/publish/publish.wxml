@@ -1,47 +1,98 @@
 <!--pages/publish/publish.wxml-->
-<view>
-  <view class="title">
-    <text>发布会议</text>
-  </view>
-  <view>
-    <form bindsubmit="formSubmit">
-      <view>
-        <text>会议名称：</text>
-        <input name="title"></input>
+<form bindsubmit="formSubmit">
+  <view class="page">
+    <view class="weui-cells__title" style='display:-webkit-box;  position: relative;'>
+      <view style='-webkit-box-flex: 1;width:80%;'>编辑会议信息</view>
+      <view class='model' style='-webkit-box-flex: 3;width:20%;' bindtap="usemodel">使用模版</view>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">会议名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name="title" placeholder="请输入会议名称" bindblur='changetitle' value='{{title}}'></input>
+        </view>
       </view>
-      <view>
-        <text>地点：</text>
-        <input name="addr"></input>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">负责人</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name="publisher" placeholder="请输入负责人姓名" bindblur='changepublisher' value='{{publisher}}'></input>
+        </view>
       </view>
-
-      <view class="tui-picker-content">
-        <picker name="starttime" mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
-          <view class="tui-picker-detail">
-            选择签到开始时间: {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}:{{dateTimeArray[5][dateTime[5]]}}
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">地点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name="addr" placeholder="请输入详细地址" bindblur='changeaddr' value='{{addr}}'></input>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">坐标
+            <icon type="info" size="23" bindtap='localinfo'></icon>
           </view>
-        </picker>
+        </view>
+        <view class="weui-cell__bd">
+          <block wx:if="{{islocal == 0}}">
+            <input class="weui-input" name='local' placeholder="经纬度" disabled='true'></input>
+          </block>
+          <block wx:elif="{{islocal == 1}}">
+            <input class="weui-input" name='local' placeholder="{{longitude}}E/W {{latitude}}N/S" placeholder-style='font-size: 12px;' disabled='true' bindtap='testlocation'></input>
+          </block>
+        </view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchChange" checked='{{islocal=="1" ? true : false}}'/>
+        </view>
       </view>
-      <view class="tui-picker-content">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">签到时间</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker name="starttime" mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
+            <view class="weui-input">
+              {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}:{{dateTimeArray[5][dateTime[5]]}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">截止时间</view>
+        </view>
         <picker name="endtime" mode="multiSelector" value="{{dateTime2}}" bindchange="changeDateTime2" bindcolumnchange="changeDateTimeColumn2" range="{{dateTimeArray2}}">
-          <view class="tui-picker-detail">
-            选择签到截止时间: {{dateTimeArray2[0][dateTime2[0]]}}-{{dateTimeArray2[1][dateTime2[1]]}}-{{dateTimeArray2[2][dateTime2[2]]}} {{dateTimeArray2[3][dateTime2[3]]}}:{{dateTimeArray2[4][dateTime2[4]]}}:{{dateTimeArray2[5][dateTime2[5]]}}
+          <view class="weui-input">
+            {{dateTimeArray2[0][dateTime2[0]]}}-{{dateTimeArray2[1][dateTime2[1]]}}-{{dateTimeArray2[2][dateTime2[2]]}} {{dateTimeArray2[3][dateTime2[3]]}}:{{dateTimeArray2[4][dateTime2[4]]}}:{{dateTimeArray2[5][dateTime2[5]]}}
           </view>
         </picker>
       </view>
-      <view>
-        <button name="testlocation" bindtap='testlocation'>地点</button>
+    </view>
+    <view class="weui-cells__title">编辑签到信息</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view wx:for="{{messagebox}}" wx:key="*this" class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">签到字段</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" id='{{index}}' value='{{item}}' bindblur='changemessage' placeholder="请输入签到字段"></input>
+        </view>
+        <view class="weui-cell__ft">
+          <icon type="cancel" size="23" id='{{index}}' bindtap='delemessage'></icon>
+        </view>
       </view>
-      <view>
-        <text>签到字段</text>
-        <button bindtap='addmessage'>添加</button>
-        <view wx:for="{{messagebox}}" wx:key="*this">
-        <text>签到字段</text>
-        <input id='{{index}}' value='{{item}}' bindblur='changemessage'></input>
-        <button id='{{index}}' bindtap='delemessage'>删除</button>
+      <view class="weui-cell weui-cell_input">
+        <view class="button-sp-area">
+          <image bindtap='addmessage' src='../../images/addition_fill.png' style='height:40px;width:40px;text-align: center'></image>
         </view>
       </view>
 
-      <button formType="submit">发布会议</button>
-    </form>
+    </view>
+    <view class="weui-btn-area">
+      <button formType="submit" class="weui-btn" type="primary">发布会议</button>
+    </view>
   </view>
-</view>
+</form>

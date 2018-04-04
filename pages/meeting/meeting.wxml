@@ -1,0 +1,48 @@
+<!--pages/meeting/meeting.wxml-->
+<view style="height:{{winHeight}}px">
+  <view class="page__hd" style='padding-top:0px;padding-bottom:0px'>
+    <view class="page__title" style="font-size: 18px;position: relative;display:-webkit-box;">
+      <view style='width:90%'>
+        <text>{{meeting.title}}\n</text>
+      </view>
+      <view style='width:10%'>
+        <image src='/images/download.png' style='height:23px;width:23px;' bindtap='download'></image>
+      </view>
+    </view>
+    <view class="page__desc" style="font-size: 12px;margin-top:0px;">
+      <text>负责人：{{meeting.publisher}}\n</text>
+      <text>会议地点：{{meeting.addr}}\n</text>
+      <text>签到时间：{{meeting.starttime}}\n</text>
+      <text>截止时间：{{meeting.endtime}}\n</text>
+      <text>签到人数：{{meeting.count}}\n</text>
+      <text>签到码：{{meeting.code}}\n</text>
+    </view>
+  </view>
+  <scroll-view scroll-y="true" style="height:{{winHeight-142}}px">
+    <block wx:for="{{signmessages}}" wx:for-index="idx" wx:for-item="item" wx:key="id">
+      <view class="feed-item" id='{{item.id}}' bindtap='bindmeeting'>
+        <view class="feed-content">
+          <view class="question">
+            <text>签到时间：{{item.signtime}}</text>
+          </view>
+          <view class="answer-body">
+            <view wx:for="{{signmessagename}}" wx:for-index="smnidx" wx:for-item="smnitem" wx:key="id">
+              <text>{{smnitem.name}}:{{item.context[smnidx]}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+</view>
+<!-- <view class="weui-btn-area">
+  <button class="weui-btn" type="primary" bindtap='sendmail'>发送至邮箱</button>
+</view> -->
+<modal hidden="{{hiddenmodalput}}" title="签到信息" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="sendmail">
+    <view class='modalview'>
+      <view>邮箱：</view>
+      <view>
+        <input class='modalinput' bindblur='geimailaddr'></input>
+      </view>
+    </view>
+</modal>
